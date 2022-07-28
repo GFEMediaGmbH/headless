@@ -31,8 +31,13 @@ class PreviewUrlHook
      */
     public function postProcess(string $previewUrl, int $pageUid, array $rootLine = null, string $anchorSection, string $viewScript, string $additionalGetVars, bool $switchFocus): string
     {
-        $siteService = GeneralUtility::makeInstance(SiteService::class);
-        $previewUrl = $siteService->getFrontendUrl($previewUrl, $pageUid);
+        // Only rewrite $previewUrl if we're not in a workspace, because
+        // for workspaces that preview URL is a BE URL and looks like this:
+        // https://example.org/typo3/index.php?route=%2Fworkspace%2Fpreview-control%2F&token=...&id=...
+        if ($GLOBALS['BE_USER']->workspace === 0) {
+            $siteService = GeneralUtility::makeInstance(SiteService::class);
+            $previewUrl = $siteService->getFrontendUrl($previewUrl, $pageUid);
+        }
 
         return $previewUrl;
     }
