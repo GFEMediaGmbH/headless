@@ -22,7 +22,9 @@ categories {
         token = ###BREAK###
         cObjNum = 1|*|2|*|1
         1.current = 1
-        2.current = 1
-        2.stdWrap.wrap = ,|
+        2 {
+            current = 1
+            stdWrap.wrap = ,|
+        }
     }
 }
